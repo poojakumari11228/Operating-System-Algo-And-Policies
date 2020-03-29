@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shortest job first Scheduling policy</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<style>
+  
+  body {
+      width: 50%;
+      margin: auto
+  }
+    
+    table,tr,td,th{           
+       border: 5px solid rgb(35, 46, 206);
+       border-radius: 20px 10px 20px 5px;
+       background-color:rgb(24, 170, 214);           
+                  }
+   td {
+       font-size:large;
+       font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+       color: blanchedalmond; 
+       text-align: center;
+       border: 3px solid rgb(119, 24, 207);
+       padding: 6px;
+       width: 50px;
+       height: 50px;
+     }
+     div {
+         font-family: 'Times New Roman', Times, serif;
+         font-size: xx-large;
+         text-align: center;
+         
+     }
+</style>
+<body>
+
+        <div class="container-fluid">
+              <h1>SHORTEST JOB FIRST</h1>  
+              
+              </div>
+    <script>
+        var serviceTime= new Array(numberOfProcess);
+        var tat = new Array(numberOfProcess);
+        var cpt = new Array(numberOfProcess);
+        var wt = new Array(numberOfProcess);
+        var sameArrivalTime=0;
+        var sumWt=0;
+        var sumTat=0; 
+        
+        var numberOfProcess = prompt("Enter the number of processes");
+       
+        
+
+        for(let i=0 ; i<numberOfProcess ; i++){
+        serviceTime[i]=prompt("Enter service time for process "+(i+1));
+        }
+          //////////////////sorting processes acc: to service time
+    serviceTime.sort(function(a, b){return a - b});
+        for(let i=0 ; i<numberOfProcess ; i++){
+    // calculate completion time
+        i==0 ? cpt[i]=serviceTime[i]:  cpt[i]=parseInt(cpt[i-1])+parseInt(serviceTime[i]);  
+     // calculate Turnarround time
+        tat[i]=cpt[i]-sameArrivalTime;
+    // calculate waiting time
+        wt[i]= tat[i] - serviceTime[i];
+    // count total waiting time
+        sumWt = sumWt+ wt[i];
+    // count total turnarroung time
+        sumTat = sumTat+ tat[i];
+        }
+
+        for(let i=0 ; i<numberOfProcess ; i++){
+        console.log("completion time for process "+(i+1)+" is "+cpt[i]);
+        console.log("Turnarround time for process "+(i+1)+" is "+tat[i]);
+        console.log("Service time "+serviceTime[i]);
+        console.log("waiting time for process "+(i+1)+" is "+wt[i]);
+        }
+        console.log("average tat is "+(sumTat/numberOfProcess));
+        console.log("average wt is "+(sumWt/numberOfProcess));
+ 
+      
+       
+       createTable();
+ 
+   
+
+
+
+      //////////////// creating table
+      function createTable(){
+            let newTable = document.createElement("table");
+            newTable.setAttribute("id","table");
+            newTable.setAttribute("class","table table-hover");
+            document.body.appendChild(newTable);
+
+            let tableHeader = document.createElement("thead");
+            tableHeader.setAttribute("id","tableHeader");
+            document.getElementById("table").appendChild(tableHeader);
+            let tableRow = document.createElement("tr");
+            tableRow.setAttribute("id","headRow");
+            document.getElementById("tableHeader").appendChild(tableRow); 
+           // headers
+            let headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+1);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+1).innerHTML="JOBS";
+               headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+2);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+2).innerHTML="Arrival Time";
+               headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+3);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+3).innerHTML="Service Time";
+                headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+4);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+4).innerHTML="Completion Time";
+                headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+5);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+5).innerHTML="TurnArround Time";
+                headerData = document.createElement("th");
+                headerData.setAttribute("id","headRow"+6);
+            document.getElementById("headRow").appendChild(headerData);
+               document.getElementById("headRow"+6).innerHTML="Waiting Time";
+
+         
+            var atno =0;
+            var stno =0;
+            var ctno =0;
+            var tatno =0;
+            var wtno =0;
+            var processNo=0;
+            let countRow=0;
+            let countCol=0;
+            while(countRow<numberOfProcess){
+                countCol=0;
+              let tableRow = document.createElement("tr");
+              tableRow.setAttribute("id","row"+countRow);
+              document.getElementById("table").appendChild(tableRow);
+              while(countCol<6){
+                 
+              let tableCol = document.createElement("td");
+              tableCol.setAttribute("id",countRow+""+countCol);
+              document.getElementById("row"+countRow).appendChild(tableCol);
+              if(countCol==0)
+              document.getElementById(countRow+""+countCol).innerHTML=++processNo;
+              else if(countCol==1)
+              document.getElementById(countRow+""+countCol).innerHTML=sameArrivalTime;
+              else if(countCol==2)
+              document.getElementById(countRow+""+countCol).innerHTML=serviceTime[stno++];
+              else if(countCol==3)
+              document.getElementById(countRow+""+countCol).innerHTML=cpt[ctno++];
+              else if(countCol==4)
+              document.getElementById(countRow+""+countCol).innerHTML=tat[tatno++];
+              else if(countCol==5)
+              document.getElementById(countRow+""+countCol).innerHTML=wt[wtno++];
+
+                 countCol++;
+              }
+              countRow++;
+            }
+         let container = document.createElement("div");   
+         container.setAttribute("id","contain");
+         document.body.appendChild(container);
+         
+         let tatText = document.createElement("h3");
+         tatText.setAttribute("id","tatid");
+         document.getElementById("contain").appendChild(tatText);
+         document.getElementById("tatid").innerHTML="AVERAGE TURNARROUND IS : "+ sumTat/numberOfProcess;
+         
+         let wtText = document.createElement("h3");
+         wtText.setAttribute("id","wtid");
+         document.getElementById("contain").appendChild(wtText);
+         document.getElementById("wtid").innerHTML="AVERAGE WAITING TIME IS : "+ sumWt/numberOfProcess;
+        }
+        </script>
+</body>
+</html>
